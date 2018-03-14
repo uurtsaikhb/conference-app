@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 
 import ToggleButton from '../components/ToggleButton';
-
 import heroImage from '../assets/hero.png';
+
 
 export default class Schedule extends Component {
 
