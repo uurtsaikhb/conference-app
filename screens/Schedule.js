@@ -5,12 +5,50 @@ import {
   Text,
   Image,
   ImageBackground,
-  View
+  View,
+  SectionList
 } from 'react-native';
 
 import ToggleButton from '../components/ToggleButton';
 import heroImage from '../assets/hero.png';
 
+const thursdaySection = [
+  {
+    id: '8:30 AM',
+    data: [{
+      id: 0,
+      title: 'Registration, breakfast'
+    }]
+  },
+  {
+    id: '10:00 AM',
+    data: [{
+      id: 0,
+      title: 'Conference Keynote',
+      speaker: 'Oyun Batnasan'
+    }]
+  }
+]
+
+const fridaySection = [
+  {
+    id: '9:30 AM',
+    data: [{
+      id: 0,
+      title: 'More breakfast'
+    }]
+  },
+  {
+    id: '10:30 AM',
+    data: [{
+      id: 0,
+      title: 'More Keynote',
+      speaker: 'Oyun Batnasan'
+    }]
+  }
+]
+
+const extractKey = ({ id }) => id;
 
 export default class Schedule extends Component {
 
@@ -23,6 +61,30 @@ export default class Schedule extends Component {
       selectedDay: item
     })
   }
+
+  renderItem = ({ item }) => {
+    return (
+      <View style={styles.row}>
+        <Text style={styles.rowTitle}>
+          {item.title}
+        </Text>
+        <Text style={styles.rowSpeaker}>
+          {item.speaker}
+        </Text>
+      </View>
+    )
+  }
+
+  renderSectionHeader = ({ section }) => {
+    return (
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionHeaderText}>
+          {section.id}
+        </Text>
+      </View>
+    )
+  }
+
 
   render() {
     const { selectedDay } = this.state;
@@ -43,6 +105,16 @@ export default class Schedule extends Component {
             onPressItem={this.handlePressItem}
           />
         </ImageBackground>
+
+        <SectionList
+          style={styles.list}
+          sections={
+            selectedDay === 'THURSDAY' ? thursdaySection : fridaySection
+          }
+          renderItem={this.renderItem}
+          renderSectionHeader={this.renderSectionHeader}
+          keyExtractor={extractKey}
+        />
       </View>
     );
   }
@@ -70,5 +142,26 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 24,
     marginBottom: 10,
+  },
+  list: {
+    flex: 1,
+  },
+  sectionHeader: {
+    backgroundColor: 'whitesmoke',
+    padding: 20,
+  },
+  sectionHeaderText: {
+    fontSize: 13,
+  },
+  row: {
+    backgroundColor: 'white',
+    padding: 20,
+  },
+  rowTitle: {
+    fontSize: 15,
+    fontWeight: '800',
+  },
+  rowSpeaker: {
+    fontSize: 13,
   }
 });
