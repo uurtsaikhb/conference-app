@@ -94,6 +94,7 @@ export default class Schedule extends Component {
         <ImageBackground
           style={styles.image}
           source={heroImage}>
+
           <Image
             style={styles.logo}
             source={require('../assets/logo.png')}></Image>

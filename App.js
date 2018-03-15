@@ -9,6 +9,7 @@ import {
 
 import EventDetails from './screens/EventDetails';
 import Schedule from './screens/Schedule';
+import FeedbackScreen from './screens/FeedbackScreen';
 
 
 
@@ -17,7 +18,7 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
 
-        <Schedule />
+        <FeedbackScreen />
 
       </View>
     );
