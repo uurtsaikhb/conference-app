@@ -6,7 +6,8 @@ import {
   Image,
   ImageBackground,
   View,
-  SectionList
+  SectionList,
+  TouchableOpacity
 } from 'react-native';
 
 import ToggleButton from '../components/ToggleButton';
@@ -27,7 +28,22 @@ const thursdaySection = [
       title: 'Conference Keynote',
       speaker: 'Oyun Batnasan'
     }]
-  }
+  },
+  {
+    id: '11:30 AM',
+    data: [{
+      id: 0,
+      title: 'Lunch break',
+    }]
+  },
+  {
+    id: '01:00 PM',
+    data: [{
+      id: 0,
+      title: 'Question and Answers',
+      speaker: 'Oyun Batnasan'
+    }]
+  },
 ]
 
 const fridaySection = [
@@ -52,6 +68,10 @@ const extractKey = ({ id }) => id;
 
 export default class Schedule extends Component {
 
+  static navigationOptions = {
+    header: null
+  }
+
   state = {
     selectedDay: 'THURSDAY'
   }
@@ -62,16 +82,19 @@ export default class Schedule extends Component {
     })
   }
 
+  _handlePressRow = (item) => {
+    let { navigate } = this.props.navigation;
+    navigate('EventDetails', {});
+  }
+
   renderItem = ({ item }) => {
     return (
-      <View style={styles.row}>
-        <Text style={styles.rowTitle}>
-          {item.title}
-        </Text>
-        <Text style={styles.rowSpeaker}>
-          {item.speaker}
-        </Text>
-      </View>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => this._handlePressRow(item)}>
+        <Text style={styles.rowTitle}>{item.title}</Text>
+        <Text style={styles.rowSpeaker}>{item.speaker}</Text>
+      </TouchableOpacity>
     )
   }
 
