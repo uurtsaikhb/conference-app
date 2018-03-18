@@ -11,13 +11,15 @@ import {
 
 export default class EventDetails extends Component {
   render() {
+    let { item } = this.props.navigation.state.params;
+
     return (
       <View style={styles.container}>
 
         <View style={styles.defailsContainer}>
-          <Text style={styles.title}>Conference Keynote</Text>
+          <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.subtitle}>Auguest 14, 2018</Text>
-          <Text style={styles.description}>Hear about nice things</Text>
+          <Text style={styles.description}>{item.description}</Text>
         </View>
 
         <View style={styles.speakerContainer}>

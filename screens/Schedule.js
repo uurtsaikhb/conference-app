@@ -11,14 +11,15 @@ import {
 } from 'react-native';
 
 import ToggleButton from '../components/ToggleButton';
-import heroImage from '../assets/hero.png';
+import heroImage from '../assets/hero.jpg';
 
 const thursdaySection = [
   {
     id: '8:30 AM',
     data: [{
       id: 0,
-      title: 'Registration, breakfast'
+      title: 'Registration, breakfast',
+      description: 'Attendees have to register to get a badge and enter breakfast room.'
     }]
   },
   {
@@ -26,7 +27,8 @@ const thursdaySection = [
     data: [{
       id: 0,
       title: 'Conference Keynote',
-      speaker: 'Oyun Batnasan'
+      speaker: 'Oyun Batnasan',
+      description: 'Speaker to will talk about keynote'
     }]
   },
   {
@@ -34,6 +36,7 @@ const thursdaySection = [
     data: [{
       id: 0,
       title: 'Lunch break',
+      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,'
     }]
   },
   {
@@ -41,7 +44,8 @@ const thursdaySection = [
     data: [{
       id: 0,
       title: 'Question and Answers',
-      speaker: 'Oyun Batnasan'
+      speaker: 'Oyun Batnasan',
+      description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
     }]
   },
 ]
@@ -51,7 +55,8 @@ const fridaySection = [
     id: '9:30 AM',
     data: [{
       id: 0,
-      title: 'More breakfast'
+      title: 'More breakfast',
+      description: 'Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,'
     }]
   },
   {
@@ -84,7 +89,7 @@ export default class Schedule extends Component {
 
   _handlePressRow = (item) => {
     let { navigate } = this.props.navigation;
-    navigate('EventDetails', {});
+    navigate('EventDetails', { item });
   }
 
   renderItem = ({ item }) => {
@@ -116,7 +121,8 @@ export default class Schedule extends Component {
       <View style={styles.container}>
         <ImageBackground
           style={styles.image}
-          source={heroImage}>
+          source={heroImage}
+          blurRadius={2}>
 
           <Image
             style={styles.logo}
@@ -155,7 +161,7 @@ const styles = StyleSheet.create({
     height: null,
     width: null,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   logo: {
     height: 50,
