@@ -13,13 +13,17 @@ import {
 import GrowingTextInput from '../components/GrowingTextInput';
 
 export default class FeedbackScreen extends Component {
+  static navigationOptions = {
+    title: 'Feedback',
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
 
         <ScrollView
           keyboardDismissMode='on-drag'
-          contentContainerStyle={{ paddingTop: 65 + 30 }}
+          contentContainerStyle={{ paddingTop: 30 }}
           style={styles.container}>
 
           <View style={[styles.row, styles.firstRow]}>
@@ -71,10 +75,6 @@ export default class FeedbackScreen extends Component {
 
         </ScrollView >
 
-        <View style={styles.navbar}>
-          <Text style={styles.titleText}>Feedback</Text>
-        </View>
-
         <StatusBar barStyle='light-content' />
       </View>
     );
@@ -86,17 +86,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5FCFF',
-  },
-  navbar: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 65,
-    backgroundColor: 'purple',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 10,
   },
   titleText: {
     fontSize: 18,
