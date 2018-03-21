@@ -7,8 +7,12 @@ import {
   View,
   ScrollView,
   StatusBar,
-  TextInput
+  TextInput,
+  Button,
+  Animated
 } from 'react-native';
+
+import Modal from 'react-native-root-modal';
 
 import GrowingTextInput from '../components/GrowingTextInput';
 
@@ -17,14 +21,57 @@ export default class FeedbackScreen extends Component {
     title: 'Feedback',
   }
 
+  state = {
+    modalVisible: false,
+    modalOpacity: new Animated.Value(0)
+  }
+
   render() {
+    const { modalVisible, modalOpacity } = this.state;
+
     return (
       <View style={{ flex: 1 }}>
+
+        <Modal
+          visible={modalVisible}
+          style={{
+            ...StyleSheet.absoluteFillObject,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'transparent'
+          }}>
+
+          <Animated.View
+            style={{
+              opacity: modalOpacity,
+              ...StyleSheet.absoluteFillObject,
+              backgroundColor: 'rgba(0,0,0, 0.5)'
+            }} />
+          <Animated.View
+            style={{
+              opacity: modalOpacity,
+              height: 300,
+              width: 300,
+              backgroundColor: 'white'
+            }}
+          />
+        </Modal>
 
         <ScrollView
           keyboardDismissMode='on-drag'
           contentContainerStyle={{ paddingTop: 30 }}
           style={styles.container}>
+
+          <Button
+            title={'Autofill contact'}
+            onPress={() => {
+              const { modalOpacity } = this.state;
+              Animated.spring(modalOpacity, { toValue: 1 }).start();
+              this.setState({
+                modalVisible: true
+              });
+            }}
+          />
 
           <View style={[styles.row, styles.firstRow]}>
             <TextInput
