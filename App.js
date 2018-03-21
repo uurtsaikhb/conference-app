@@ -11,7 +11,32 @@ import EventDetails from './screens/EventDetails';
 import Schedule from './screens/Schedule';
 import FeedbackScreen from './screens/FeedbackScreen';
 
-import { StackNavigator, TabNavigator } from 'react-navigation';
+import { StackNavigator, TabNavigator, TabBarBottom } from 'react-navigation';
+
+import Icon from 'react-native-vector-icons/Ionicons';
+
+
+class ScheduleTabIcon extends React.Component {
+  render() {
+    return (
+      <Icon
+        name="ios-calendar-outline"
+        size={30}
+        color={this.props.tintColor} />
+    )
+  }
+}
+
+class FeedbackTabIcon extends React.Component {
+  render() {
+    return (
+      <Icon
+        name="ios-contact-outline"
+        size={30}
+        color={this.props.tintColor} />
+    )
+  }
+}
 
 const defaultNavigationOptions = {
   headerStyle: {
@@ -26,24 +51,41 @@ const ScheduleStack = StackNavigator(
     EventDetails: { screen: EventDetails }
   }, {
     headerMode: 'screen',
-    navigationOptions: defaultNavigationOptions
+    navigationOptions: {
+      ...defaultNavigationOptions,
+      tabBarIcon: (props) => <ScheduleTabIcon {...props} />
+    }
   });
 
 const FeedbackStack = StackNavigator(
+  { FeedbackForm: { screen: FeedbackScreen } },
   {
-    FeedbackForm: { screen: FeedbackScreen },
-  }, {
-    navigationOptions: defaultNavigationOptions
-  }
-)
+    navigationOptions: {
+      ...defaultNavigationOptions,
+      tabBarIcon: (props) => <FeedbackTabIcon {...props} />
+    }
+  })
 
 const AppNavigation = TabNavigator(
   {
     Schedule: { screen: ScheduleStack },
     Feedback: { screen: FeedbackStack }
-  }, {
+  },
+  {
     tabBarPosition: 'bottom',
-    swipeEnabled: false
+    swipeEnabled: false,
+    tabBarComponent: TabBarBottom,
+    tabBarOptions: {
+      labelStyle: {
+        fontSize: 14,
+      },
+      style: {
+        backgroundColor: 'white',
+        height: 55
+      },
+      inactiveTintColor: 'gray',
+      activeTintColor: 'purple'
+    }
   }
 )
 
