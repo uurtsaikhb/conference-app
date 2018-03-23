@@ -9,12 +9,13 @@ import {
   StatusBar,
   TextInput,
   Button,
-  Animated
+  Animated,
+  PanResponder
 } from 'react-native';
 
 import Modal from 'react-native-root-modal';
-
 import GrowingTextInput from '../components/GrowingTextInput';
+import Swipeable from '../components/Swipeable';
 
 export default class FeedbackScreen extends Component {
   static navigationOptions = {
@@ -47,14 +48,48 @@ export default class FeedbackScreen extends Component {
               ...StyleSheet.absoluteFillObject,
               backgroundColor: 'rgba(0,0,0, 0.5)'
             }} />
-          <Animated.View
-            style={{
-              opacity: modalOpacity,
-              height: 300,
-              width: 300,
-              backgroundColor: 'white'
+          <Swipeable
+            onMove={({ x }) => {
+              let newOpacity = calculateOpacity(x);
+              modalOpacity.setValue(newOpacity);
             }}
-          />
+
+            onEnd={({ x }) => {
+              let newOpacity = calculateOpacity(x);
+              if (newOpacity < 0.1) {
+                this.setState({ modalVisible: false });
+                modalOpacity.setValue(0);
+              } else {
+                Animated.spring(modalOpacity, { toValue: 1 }).start(); // for smooth animation
+              }
+
+            }}
+          >
+            <Animated.View
+              style={{
+                opacity: modalOpacity,
+                height: 300,
+                width: 300,
+                backgroundColor: 'white',
+                borderRadius: 15,
+                padding: 30,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Text style={{ marginBottom: 15 }}>
+                Do you want to autofill your contact from Facebook
+            </Text>
+              <Button title={'Login to Facebook'} onPress={() => {
+                this.setState({
+                  modalVisible: false
+                })
+              }} />
+              <Text style={{ marginTop: 15 }}>
+                No thanks!
+            </Text>
+            </Animated.View>
+          </Swipeable>
         </Modal>
 
         <ScrollView
@@ -123,11 +158,12 @@ export default class FeedbackScreen extends Component {
         </ScrollView >
 
         <StatusBar barStyle='light-content' />
-      </View>
+      </View >
     );
   }
 }
 
+const calculateOpacity = (x) => Math.max(0, 100 - Math.abs(x)) / 100;
 
 const styles = StyleSheet.create({
   container: {
