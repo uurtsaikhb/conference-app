@@ -10,12 +10,15 @@ import {
   TextInput,
   Button,
   Animated,
-  PanResponder
+  PanResponder,
+  AsyncStorage
 } from 'react-native';
 
 import Modal from 'react-native-root-modal';
 import GrowingTextInput from '../components/GrowingTextInput';
 import Swipeable from '../components/Swipeable';
+
+const NAME_FIELD_KEY = 'NAME_FIELD_KEY';
 
 export default class FeedbackScreen extends Component {
   static navigationOptions = {
@@ -24,8 +27,21 @@ export default class FeedbackScreen extends Component {
 
   state = {
     modalVisible: false,
-    modalOpacity: new Animated.Value(0)
+    modalOpacity: new Animated.Value(0),
+    name: ''
   }
+
+  componentWillMount = async () => {
+    try {
+      const name = await AsyncStorage.getItem(NAME_FIELD_KEY);
+      if (name !== null) {
+        this.setState({ name });
+      }
+    } catch (error) {
+
+    }
+  }
+
 
   render() {
     const { modalVisible, modalOpacity } = this.state;
@@ -113,9 +129,22 @@ export default class FeedbackScreen extends Component {
               placeholder='Full name'
               autoCapitalize='words'
               autoCorrect={false}
+              value={this.state.name}
+              onChangeText={(name) => {
+                this.setState({ name })
+              }}
               returnKeyType='next'
               style={styles.textInput}
-              onSubmitEditing={() => { this._emailInput.focus() }}
+              onSubmitEditing={async () => {
+                try {
+                  await AsyncStorage.setItem(NAME_FIELD_KEY, this.state.name);
+                  console.log(this.state.name);
+                } catch (error) {
+                  console.log(`error occured ${error}`);
+                }
+
+                this._emailInput.focus()
+              }}
               blurOnSubmit={false}
             />
           </View>
